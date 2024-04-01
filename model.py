@@ -1,4 +1,4 @@
-from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer
+from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer, set_seed
 from peft import LoraConfig, get_peft_model
 import numpy as np
 from datasets import load_metric
@@ -14,14 +14,15 @@ class ModelHandler:
   def __init__(self, dataset_name, ft_type):
     self.dataset_handler = DatasetHandler(dataset_name, ft_type)
     self.finetuning_type = ft_type
-    self.reset_model()
     self.metric = load_metric(*self.dataset_handler.dataset_name)
   
   def reset_model(self):
     self.model = AutoModelForSequenceClassification.from_pretrained(Config.BASE_MODEL, num_labels=2)
 
     
-  def run_experiment(self, training_args, lora_config=None):
+  def run_experiment(self, training_args, lora_config=None, seed=42):
+    set_seed(seed)
+
     self.reset_model()
 
     if self.finetuning_type == Config.Model.LORA:
@@ -43,8 +44,9 @@ class ModelHandler:
     compute_metrics=compute_metrics(self.metric),
     )
 
-    my_custom_start_time = time.time()
+    trainer.set_my_custom_start_time(time.time())
     trainer.train()
+    return trainer
 
 
 def compute_metrics_inner(eval_preds, metric):

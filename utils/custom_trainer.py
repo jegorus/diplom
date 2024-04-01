@@ -11,6 +11,9 @@ import math
 
 class CustomTrainer(Trainer):
 
+      def set_my_custom_start_time(self, start_time):
+        self.my_custom_start_time = start_time
+
       def evaluate(
           self,
           eval_dataset: Optional[Dataset] = None,
@@ -37,7 +40,7 @@ class CustomTrainer(Trainer):
 
 
           eval_output.metrics.update(
-              {"train_runtime": round(time.time() - my_custom_start_time, 4)}
+              {"train_runtime": round(time.time() - self.my_custom_start_time, 4)}
           )
 
           self.log(eval_output.metrics)

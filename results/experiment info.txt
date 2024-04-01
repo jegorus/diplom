@@ -1,0 +1,90 @@
+1 - 5) exp-fullft-0, exp-fullft-1, exp-fullft-2, exp-fullft-3, exp-fullft-4
+seed=[42, 1, 2 ,3, 4]
+gpu: T4 16gb
+
+training_args = dict(
+    output_dir="full_ft_output",
+    logging_dir='full_ft_logs',
+    logging_strategy="steps",
+    evaluation_strategy="steps",
+
+    warmup_steps=200,
+    weight_decay=0.01,
+
+    learning_rate=5e-05,
+    num_train_epochs=10,
+    logging_steps=25,
+    eval_steps=25,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16,)
+
+6 - 10) exp-lora-0, exp-lora-1, exp-lora-2, exp-lora-3, exp-lora-4 
+
+seed=[42, 1, 2, 3, 4]
+gpu: T4 16gb
+
+lora_config = dict(
+    r=8,
+    lora_alpha=8,
+    target_modules=(["query", "value"]),
+    lora_dropout=0.1,
+    bias="none",
+    modules_to_save=["classifier"],
+    task_type="SEQ_CLS"
+)
+
+training_args = dict(
+    output_dir="lora_output",
+    logging_dir='lora_logs',
+    logging_strategy="steps",
+    evaluation_strategy="steps",
+    
+
+    warmup_steps=200,
+    weight_decay=0.01,
+   
+    learning_rate=5e-4,
+    num_train_epochs=10,
+    logging_steps=25,
+    eval_steps=25,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16,)
+
+
+11) exp-lora-5 (low lr)
+
+seed=42
+gpu: T4 16gb
+
+lora_config = dict(
+    r=8,
+    lora_alpha=8,
+    target_modules=(["query", "value"]),
+    lora_dropout=0.1,
+    bias="none",
+    modules_to_save=["classifier"],
+    task_type="SEQ_CLS"
+)
+
+training_args = dict(
+    output_dir="lora_output",
+    logging_dir='lora_logs',
+    logging_strategy="steps",
+    evaluation_strategy="steps",
+    
+
+    warmup_steps=200,
+    weight_decay=0.01,
+   
+    learning_rate=5e-5,
+    num_train_epochs=10,
+    logging_steps=25,
+    eval_steps=25,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16,
+    )
+
+
