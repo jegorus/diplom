@@ -240,3 +240,12 @@ r=128, a=16, seed=42, 1
 
 87 - 89) exp-lora-81-83
 r=16, a=16, target_modules=(["query", "value", "key"]), seed=42, 1, 2
+
+90 - 92) exp-lora-84-86
+r=16, a=16, target_modules=(["query", "value", "key", "*dense*"]), seed=42, 1, 2
+
+93 - 95) exp-lora-87-89
+r=16, a=16, target_modules=(["query"]), seed=42, 1, 2
+
+96 - 97) exp-lora-90-92
+r=16, a=16, target_modules=(["value"]), seed=42, 1, 2
