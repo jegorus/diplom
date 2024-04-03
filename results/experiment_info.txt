@@ -247,5 +247,47 @@ r=16, a=16, target_modules=(["query", "value", "key", "*dense*"]), seed=42, 1, 2
 93 - 95) exp-lora-87-89
 r=16, a=16, target_modules=(["query"]), seed=42, 1, 2
 
-96 - 97) exp-lora-90-92
+96 - 98) exp-lora-90-92
 r=16, a=16, target_modules=(["value"]), seed=42, 1, 2
+
+99 - 101) exp-lora-93-95
+r=16, a=16, target_modules=(["query", "key"]), seed=42, 1, 2
+
+102 - 104) exp-lora-96-98
+r=16, a=16, target_modules=(["value", "key"]), seed=42, 1, 2
+
+105, 106) exp-lora-99-100
+r=8, a=32, seed=42, 1
+
+107, 108) exp-lora-101-102
+r=32, a=8, seed=42, 1
+
+109, 110) exp-lora-103-104
+r=8, a=64, seed=42, 1
+
+111, 112) exp-lora-105-106
+r=64, a=8, seed=42, 1
+
+113, 114) exp-lora-107-108
+r=64, a=64, seed=42, 1
+
+115, 116) exp-lora-109-110
+r=64, a=32, seed=42, 1
+
+117, 118) exp-lora-111-112
+r=32, a=64, seed=42, 1
+
+119, 120) exp-lora-113-114
+r=128, a=128, seed=42, 1
+
+121, 122) exp-lora-115-116
+r=64, a=128, seed=42, 1
+
+123, 124) exp-lora-117-118
+r=128, a=64, seed=42, 1
+
+125, 126) exp-lora-119-120
+r=32, a=128, seed=42, 1
+
+127, 128) exp-lora-121-122
+r=128, a=32, seed=42, 1
