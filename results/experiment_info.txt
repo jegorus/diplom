@@ -210,3 +210,33 @@ r=16, a=8, seed=42, 1
 
 61, 62) exp-lora-55-56
 r=16, a=4, seed=42, 1
+
+63, 64) exp-lora-57-58
+r=16, a=2, seed=42, 1
+
+65, 66) exp-lora-59-60
+r=2, a=16, seed=42, 1
+
+67, 68) exp-lora-61-62
+r=4, a=2, seed=42, 1
+
+69 - 73) exp-lora-63-67
+r=16, a=64, seed=42, 1, 2, 3, 4
+
+74 - 78) exp-lora-68-72
+r=16, a=128, seed=42, 1, 2, 3, 4
+
+79, 80) exp-lora-73-74
+r=32, a=16, seed=42, 1
+
+81, 82) exp-lora-75-76
+r=32, a=32, seed=42, 1
+
+83, 84) exp-lora-77-78
+r=64, a=16, seed=42, 1
+
+85, 86) exp-lora-79-80
+r=128, a=16, seed=42, 1
+
+87 - 89) exp-lora-81-83
+r=16, a=16, target_modules=(["query", "value", "key"]), seed=42, 1, 2
