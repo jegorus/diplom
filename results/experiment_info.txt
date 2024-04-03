@@ -155,104 +155,58 @@ training_args = dict(
     per_device_train_batch_size=16,
     )
 
+In the folllowing experiments all the other params are the same:
+
 20-24) exp-lora-14-18
-
 seed=[42, 1, 2, 3, 4]
-gpu: T4 16gb
-
-lora_config = dict(
-    r=16,
-    lora_alpha=16,
-    target_modules=(["query", "value"]),
-    lora_dropout=0.1,
-    bias="none",
-    modules_to_save=["classifier"],
-    task_type="SEQ_CLS"
-)
-
-training_args = dict(
-    output_dir="lora_output",
-    logging_dir='lora_logs',
-    logging_strategy="steps",
-    evaluation_strategy="steps",
-    
-
-    warmup_steps=200,
-    weight_decay=0.01,
-   
-    learning_rate=5e-4,
-    num_train_epochs=10,
-    logging_steps=25,
-    eval_steps=25,
-    logging_first_step=True,
-    per_device_eval_batch_size=16,
-    per_device_train_batch_size=16,
-    )
+r=16, a=16,
 
 25-29) exp-lora-19-23
-
 seed=[42, 1, 2, 3, 4]
-gpu: T4 16gb
-
-lora_config = dict(
-    r=16,
-    lora_alpha=32,
-    target_modules=(["query", "value"]),
-    lora_dropout=0.1,
-    bias="none",
-    modules_to_save=["classifier"],
-    task_type="SEQ_CLS"
-)
-
-training_args = dict(
-    output_dir="lora_output",
-    logging_dir='lora_logs',
-    logging_strategy="steps",
-    evaluation_strategy="steps",
-    
-
-    warmup_steps=200,
-    weight_decay=0.01,
-   
-    learning_rate=5e-4,
-    num_train_epochs=10,
-    logging_steps=25,
-    eval_steps=25,
-    logging_first_step=True,
-    per_device_eval_batch_size=16,
-    per_device_train_batch_size=16,
-    )
+r=16, a=32,
 
 30-34) exp-lora-24-28
-
 seed=[42, 1, 2, 3, 4]
-gpu: T4 16gb
+r=4, a=4,
 
-lora_config = dict(
-    r=4,
-    lora_alpha=4,
-    target_modules=(["query", "value"]),
-    lora_dropout=0.1,
-    bias="none",
-    modules_to_save=["classifier"],
-    task_type="SEQ_CLS"
-)
+35, 36) exp-lora-29-30
+r=4, a=8, seed=42, 1
 
-training_args = dict(
-    output_dir="lora_output",
-    logging_dir='lora_logs',
-    logging_strategy="steps",
-    evaluation_strategy="steps",
-    
+37, 38 ) exp-lora-31-32
+r=4, a=16, seed=42, 1
 
-    warmup_steps=200,
-    weight_decay=0.01,
-   
-    learning_rate=5e-4,
-    num_train_epochs=10,
-    logging_steps=25,
-    eval_steps=25,
-    logging_first_step=True,
-    per_device_eval_batch_size=16,
-    per_device_train_batch_size=16,
-    )
+39, 40) exp-lora-33-34
+r=4, a=32, seed=42, 1
+
+41, 42) exp-lora-35-36
+r=2, a=2, seed=42, 1
+
+43, 44) exp-lora-37-38
+r=2, a=4, seed=42, 1
+
+45, 46) exp-lora-39-40
+r=2, a=8, seed=42, 1
+
+47, 48) exp-lora-41-42
+r=1, a=1, seed=42, 1
+
+47, 48) exp-lora-43-44
+r=1, a=4, seed=42, 1
+
+51, 52) exp-lora-45-46
+r=1, a=8, seed=42, 1
+
+53, 54) exp-lora-47-48
+r=1, a=16, seed=42, 1
+
+55, 56) exp-lora-49-50
+r=8, a=4, seed=42, 1
+
+57, 58) exp-lora-51-52
+r=8, a=2, seed=42, 1
+
+59, 60) exp-lora-53-54
+r=16, a=8, seed=42, 1
+
+61, 62) exp-lora-55-56
+r=16, a=4, seed=42, 1
