@@ -190,7 +190,7 @@ r=2, a=8, seed=42, 1
 47, 48) exp-lora-41-42
 r=1, a=1, seed=42, 1
 
-47, 48) exp-lora-43-44
+49, 50) exp-lora-43-44
 r=1, a=4, seed=42, 1
 
 51, 52) exp-lora-45-46
