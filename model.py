@@ -3,10 +3,14 @@ from peft import LoraConfig, get_peft_model
 import numpy as np
 from datasets import load_metric
 import time
+from collections.abc import Iterable
+
 
 from config import Config
 from utils.custom_trainer import CustomTrainer
 from data import DatasetHandler
+from convert import Converter
+
 
 
 class ModelHandler:
@@ -47,6 +51,30 @@ class ModelHandler:
     trainer.set_my_custom_start_time(time.time())
     trainer.train()
     return trainer
+
+
+  def run_experiments_and_convert(self, training_args, seeds, convert_name, convert_nums, lora_config=None):
+    if isinstance(seeds, int):
+      seeds = [seeds]
+    if isinstance(convert_nums, int):
+      convert_nums = [convert_nums]
+
+    if not isinstance(seeds, Iterable):
+      raise ValueError("seeds should be int or iterable")
+    if not isinstance(convert_nums, Iterable):
+      raise ValueError("convert_nums should be int or iterable")
+
+    if not len(seeds) == len(convert_nums):
+      raise ValueError("seeds and convert_numds should have the same length")
+
+    for seed, convert_num in zip(seeds, convert_nums):
+      trainer = self.run_experiment(training_args, lora_config, seed)
+      Converter.log_to_csv(trainer.state.log_history, convert_name, convert_num)
+      df = Converter.log_to_pandas(trainer.state.log_history)
+      df = Converter.prettify_results(df)
+      Converter.pandas_to_csv_name(df, "exp-" + convert_name + "-" + str(convert_num) + "-prettified")
+      print(str(convert_num) + " converted")
+    
 
 
 def compute_metrics_inner(eval_preds, metric):
