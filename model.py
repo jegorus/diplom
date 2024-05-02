@@ -1,5 +1,5 @@
 from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer, set_seed
-from peft import LoraConfig, get_peft_model
+from peft import LoraConfig, get_peft_model, PeftModel
 import numpy as np
 from datasets import load_metric
 import time
@@ -17,26 +17,34 @@ class ModelHandler:
 
   def __init__(self, dataset_name, ft_type):
     self.dataset_handler = DatasetHandler(dataset_name, ft_type)
+    self.dataset_name = dataset_name
     self.finetuning_type = ft_type
     self.metric = load_metric(*self.dataset_handler.dataset_name)
   
-  def reset_model(self):
-    self.model = AutoModelForSequenceClassification.from_pretrained(Config.BASE_MODEL, num_labels=2)
+  def reset_model(self, num_labels=2, saved_model_path=None):
+    path = saved_model_path if saved_model_path else Config.BASE_MODEL
+    self.model = AutoModelForSequenceClassification.from_pretrained(path, num_labels=num_labels)
 
     
-  def run_experiment(self, training_args, lora_config=None, seed=42):
+  def run_experiment(self, training_args, lora_config=None, seed=42, saved_model_path=None):
     set_seed(seed)
 
-    self.reset_model()
+    if  self.dataset_name == Config.Dataset.CB:
+      self.reset_model(3, saved_model_path)
+    else:
+      self.reset_model(2, saved_model_path)
 
     if self.finetuning_type == Config.Model.LORA:
       if lora_config is None:
         raise ValueError("finetuning type is 'LORA', but 'lora_config' is None")
-      self.model = get_peft_model(self.model, LoraConfig(**lora_config))
+      if saved_model_path:
+        self.model = PeftModel.from_pretrained(self.model, saved_model_path, is_trainable=True)
+      else: 
+        self.model = get_peft_model(self.model, LoraConfig(**lora_config))
 
-    if self.finetuning_type == Config.Model.FULLFT:
-        if lora_config is not None:
-          raise ValueError("finetuning type is 'FULLFT', but 'lora_config' provided")
+    # if self.finetuning_type == Config.Model.FULLFT:
+    #    if lora_config is not None:
+    #      raise ValueError("finetuning type is 'FULLFT', but 'lora_config' provided")
 
     trainer = CustomTrainer(
     self.model,
@@ -53,7 +61,7 @@ class ModelHandler:
     return trainer
 
 
-  def run_experiments_and_convert(self, training_args, seeds, convert_name, convert_nums, lora_config=None):
+  def run_experiments_and_convert(self, training_args, seeds, convert_name, convert_nums, lora_config=None, saved_model_path=None):
     if isinstance(seeds, int):
       seeds = [seeds]
     if isinstance(convert_nums, int):
@@ -68,12 +76,14 @@ class ModelHandler:
       raise ValueError("seeds and convert_numds should have the same length")
 
     for seed, convert_num in zip(seeds, convert_nums):
-      trainer = self.run_experiment(training_args, lora_config, seed)
+      trainer = self.run_experiment(training_args, lora_config, seed, saved_model_path)
       Converter.log_to_csv(trainer.state.log_history, convert_name, convert_num)
-      df = Converter.log_to_pandas(trainer.state.log_history)
-      df = Converter.prettify_results(df)
-      Converter.pandas_to_csv_name(df, "exp-" + convert_name + "-" + str(convert_num) + "-prettified")
+      # df = Converter.log_to_pandas(trainer.state.log_history)
+      # df = Converter.prettify_results(df)
+      # Converter.pandas_to_csv_name(df, "exp-" + convert_name + "-" + str(convert_num) + "-prettified")
       print(str(convert_num) + " converted")
+    
+    return trainer
     
 
 
