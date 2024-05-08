@@ -1,0 +1,10 @@
+name,i_begin,i_end,seeds_list
+exp-lora-q-v-k,86,89,"[42, 1, 2]"
+exp-lora-q,92,95,"[42, 1, 2]"
+exp-lora-v,95,98,"[42, 1, 2]"
+exp-lora-q-k,98,101,"[42, 1, 2]"
+exp-lora-v-k,101,104,"[42, 1, 2]"
+exp-lora-q-v-k-attff,179,182,"[42, 1, 2]"
+exp-lora-all-layers,182,185,"[42, 1, 2]"
+exp-lora-k,176,179,"[42, 1, 2]"
+exp-lora-q-v,19,22,"[42, 1, 2]"
