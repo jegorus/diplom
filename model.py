@@ -1,5 +1,5 @@
 from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer, set_seed
-from peft import LoraConfig, get_peft_model, PeftModel
+from peft import LoraConfig, get_peft_model, PeftModel, IA3Config, AdaLoraConfig
 import numpy as np
 from datasets import load_metric
 import time
@@ -8,6 +8,7 @@ from collections.abc import Iterable
 
 from config import Config
 from utils.custom_trainer import CustomTrainer
+from utils.utils import print_trainable_named_parameters
 from data import DatasetHandler
 from convert import Converter
 
@@ -26,7 +27,7 @@ class ModelHandler:
     self.model = AutoModelForSequenceClassification.from_pretrained(path, num_labels=num_labels)
 
     
-  def run_experiment(self, training_args, lora_config=None, seed=42, saved_model_path=None):
+  def run_experiment(self, training_args, adapter_config=None, seed=42, saved_model_path=None, print_params=False):
     set_seed(seed)
 
     if  self.dataset_name == Config.Dataset.CB:
@@ -34,17 +35,30 @@ class ModelHandler:
     else:
       self.reset_model(2, saved_model_path)
 
-    if self.finetuning_type == Config.Model.LORA:
-      if lora_config is None:
-        raise ValueError("finetuning type is 'LORA', but 'lora_config' is None")
-      if saved_model_path:
-        self.model = PeftModel.from_pretrained(self.model, saved_model_path, is_trainable=True)
-      else: 
-        self.model = get_peft_model(self.model, LoraConfig(**lora_config))
+    if self.finetuning_type == Config.Model.LORA or \
+       self.finetuning_type == Config.Model.IA3 or \
+       self.finetunint_type == Config.Model.ADALORA:
+       if adapter_config is None:
+        raise ValueError("finetuning type uses adapter, but 'adapter_config' is None")
+
+       if saved_model_path:
+          self.model = PeftModel.from_pretrained(self.model, saved_model_path, is_trainable=True)
+ 
+       else:
+
+        if self.finetuning_type == Config.Model.LORA:
+          self.model = get_peft_model(self.model, LoraConfig(**adapter_config))
+        elif self.finetuning_type == Config.Model.IA3:
+          self.model = get_peft_model(self.model, IA3Config(**adapter_config))
+        elif self.finetuning_type == Config.Model.ADALORA:
+          self.model = get_peft_model(self.model, AdaLoraConfig(**adapter_config))
 
     # if self.finetuning_type == Config.Model.FULLFT:
     #    if lora_config is not None:
     #      raise ValueError("finetuning type is 'FULLFT', but 'lora_config' provided")
+
+    if print_params == True:
+      print_trainable_named_parameters(self.model)
 
     trainer = CustomTrainer(
     self.model,
@@ -61,7 +75,7 @@ class ModelHandler:
     return trainer
 
 
-  def run_experiments_and_convert(self, training_args, seeds, convert_name, convert_nums, lora_config=None, saved_model_path=None):
+  def run_experiments_and_convert(self, training_args, seeds, convert_name, convert_nums, adapter_config=None, saved_model_path=None, print_params=False):
     if isinstance(seeds, int):
       seeds = [seeds]
     if isinstance(convert_nums, int):
@@ -76,7 +90,7 @@ class ModelHandler:
       raise ValueError("seeds and convert_numds should have the same length")
 
     for seed, convert_num in zip(seeds, convert_nums):
-      trainer = self.run_experiment(training_args, lora_config, seed, saved_model_path)
+      trainer = self.run_experiment(training_args, adapter_config, seed, saved_model_path, print_params)
       Converter.log_to_csv(trainer.state.log_history, convert_name, convert_num)
       # df = Converter.log_to_pandas(trainer.state.log_history)
       # df = Converter.prettify_results(df)

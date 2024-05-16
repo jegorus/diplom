@@ -18,3 +18,5 @@ class Config:
   class Model(Enum):
     FULLFT = 1
     LORA = 2
+    IA3 = 3
+    ADALORA = 4

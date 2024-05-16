@@ -675,6 +675,7 @@ learning_rate=1e-3,
 
 319 - 320) exp-cb-lora-64..65
 ["query", "value", "key"]
+r=16, a=16
 
 321 - 322) exp-cb-lora-66..67
 ["query"]
@@ -708,3 +709,22 @@ learning_rate=2e-2,
 
 341 - 342) exp-cb-lora-78..79
 ["query", "value", "key", "attention.output.dense", "intermediate.dense", "output.dense"]
+
+343 - 354) exp-mrpc-fullft-5-16:
+seeds = [42, 1]
+for lr in [1e-3, 5e-4, 1e-4, 2e-5, 1e-5, 5e-6]
+
+355 - 369) exp-mrpc-fullft-17-31
+seeds=[42]
+lr=2e-5
+for weight_dec in [0, 0.01, 0.05, 0.1, 0.2]:
+  for warmup_stp in [0, 200, 500]:
+
+
+370 - 371) exp-mrpc-ia3-12..13
+learning_rate=5e-2
+seeds=[42, 1]
+
+372) exp-cb-lora-80
+["query", "value"],
+seed=1, r=16, a=16
