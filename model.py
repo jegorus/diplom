@@ -37,7 +37,7 @@ class ModelHandler:
 
     if self.finetuning_type == Config.Model.LORA or \
        self.finetuning_type == Config.Model.IA3 or \
-       self.finetunint_type == Config.Model.ADALORA:
+       self.finetuning_type == Config.Model.ADALORA:
        if adapter_config is None:
         raise ValueError("finetuning type uses adapter, but 'adapter_config' is None")
 
