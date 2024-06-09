@@ -38,14 +38,18 @@ class Converter:
     cls.pandas_to_csv_name(df, name)
 
 
-  def prettify_results(pandas_df):
+  def prettify_results(pandas_df, metrics_list = ["acc", "f1"]):
     pd.set_option('display.max_rows', None)
-    ret_df = pandas_df[["epoch", "step", "loss", "eval_loss", "eval_accuracy", "eval_f1", "train_runtime"]].groupby(['step']).max()
+    pandas_df = pandas_df.rename(columns={"eval_accuracy": "eval_acc"})
+    metrics_list = ["eval_" + x for x in metrics_list]
+    ret_df = pandas_df[["epoch", "step", "loss", "eval_loss"] + metrics_list +  ["train_runtime"]].groupby(['step']).max()
     return ret_df.dropna().rename(columns={"loss" : "train_loss"}).reset_index()
   
 
   def add_average_metric_column(pandas_df, name, metrics_list):
     
+    metrics_list = ["eval_" + x for x in metrics_list]
+
     def avg_metric(row):
       return sum([row[metric] for metric in metrics_list]) / len(metrics_list)
 
@@ -53,27 +57,31 @@ class Converter:
     return pandas_df
   
 
-  def create_df_max():
-    return  pd.DataFrame(columns=["name", "max_acc", "max_f1", "max_avg", "epoch_max_acc", "epoch_max_f1", "epoch_max_avg"])
+  def create_df_max(metrics_list = ["acc", "f1"], extra_columns=[]):
+    columns = []
+    columns += ["max_" + x for x in metrics_list]
+    if len(metrics_list) > 1:
+      columns += ["max_avg"]
+    columns += ["epoch_" + x for x in columns]
+    return  pd.DataFrame(columns=["name"] + columns + extra_columns)
 
   @classmethod
-  def add_row_to_df_max(cls, df_max, exp_type, exp_num):
-    df = cls.csv_to_pandas(exp_type, exp_num)
-    df = cls.prettify_results(df)
-    df = cls.add_average_metric_column(df, 'eval_avg', ['eval_accuracy', 'eval_f1'])
+  def add_row_to_df_max(cls, df_max, exp_type, exp_num, metrics_list = ["acc", "f1"]):
+    df1 = cls.csv_to_pandas(exp_type, exp_num)
+    df = cls.prettify_results(df1, metrics_list)
+    df = cls.add_average_metric_column(df, 'eval_avg', metrics_list)
     df_append = {"name" : cls.get_experiment_name(exp_type, exp_num)}
 
-    df_tmp = df.iloc[df['eval_accuracy'].idxmax()]
-    df_append["max_acc"] = df_tmp["eval_accuracy"]
-    df_append["epoch_max_acc"] = df_tmp["epoch"]
-
-    df_tmp = df.iloc[df['eval_f1'].idxmax()]
-    df_append["max_f1"] = df_tmp["eval_f1"]
-    df_append["epoch_max_f1"] = df_tmp["epoch"]
+    for metric in metrics_list:
+      df_tmp = df.iloc[df["eval_" + metric].idxmax()]
+      df_append["max_" + metric] = df_tmp["eval_" + metric]
+      df_append["epoch_max_" + metric] = df_tmp["epoch"]
 
     df_tmp = df.iloc[df['eval_avg'].idxmax()]
     df_append["max_avg"] = df_tmp["eval_avg"]
     df_append["epoch_max_avg"] = df_tmp["epoch"]
+
+    df_append["train_runtime"] = df1.iloc[len(df1) - 1]["train_runtime"]
 
     df_max.loc[len(df_max)] = df_append 
     return df_max
