@@ -1,0 +1,1161 @@
+
+1 - 5) exp-fullft-0, exp-fullft-1, exp-fullft-2, exp-fullft-3, exp-fullft-4
+seed=[42, 1, 2 ,3, 4]
+gpu: T4 16gb
+
+training_args = dict(
+    output_dir="full_ft_output",
+    logging_dir='full_ft_logs',
+    logging_strategy="steps",
+    evaluation_strategy="steps",
+
+    warmup_steps=200,
+    weight_decay=0.01,
+
+    learning_rate=5e-05,
+    num_train_epochs=10,
+    logging_steps=25,
+    eval_steps=25,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16,)
+
+6 - 10) exp-lora-0, exp-lora-1, exp-lora-2, exp-lora-3, exp-lora-4 
+
+seed=[42, 1, 2, 3, 4]
+gpu: T4 16gb
+
+lora_config = dict(
+    r=8,
+    lora_alpha=8,
+    target_modules=(["query", "value"]),
+    lora_dropout=0.1,
+    bias="none",
+    modules_to_save=["classifier"],
+    task_type="SEQ_CLS"
+)
+
+training_args = dict(
+    output_dir="lora_output",
+    logging_dir='lora_logs',
+    logging_strategy="steps",
+    evaluation_strategy="steps",
+    
+
+    warmup_steps=200,
+    weight_decay=0.01,
+   
+    learning_rate=5e-4,
+    num_train_epochs=10,
+    logging_steps=25,
+    eval_steps=25,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16,)
+
+
+11, 12) exp-lora-5, exp-lora-6 (low lr)
+
+seed=[42, 1]
+gpu: T4 16gb
+
+lora_config = dict(
+    r=8,
+    lora_alpha=8,
+    target_modules=(["query", "value"]),
+    lora_dropout=0.1,
+    bias="none",
+    modules_to_save=["classifier"],
+    task_type="SEQ_CLS"
+)
+
+training_args = dict(
+    output_dir="lora_output",
+    logging_dir='lora_logs',
+    logging_strategy="steps",
+    evaluation_strategy="steps",
+    
+
+    warmup_steps=200,
+    weight_decay=0.01,
+   
+    learning_rate=5e-5,
+    num_train_epochs=10,
+    logging_steps=25,
+    eval_steps=25,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16,
+    )
+
+13, 14) exp-lora-7, exp-lora-8 (high lr)
+
+seed=[42, 1]
+gpu: T4 16gb
+
+lora_config = dict(
+    r=8,
+    lora_alpha=8,
+    target_modules=(["query", "value"]),
+    lora_dropout=0.1,
+    bias="none",
+    modules_to_save=["classifier"],
+    task_type="SEQ_CLS"
+)
+
+training_args = dict(
+    output_dir="lora_output",
+    logging_dir='lora_logs',
+    logging_strategy="steps",
+    evaluation_strategy="steps",
+    
+
+    warmup_steps=200,
+    weight_decay=0.01,
+   
+    learning_rate=5e-3,
+    num_train_epochs=10,
+    logging_steps=25,
+    eval_steps=25,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16,
+    )
+
+15-19) exp-lora-9-13
+
+seed=[42, 1, 2, 3, 4]
+gpu: T4 16gb
+
+lora_config = dict(
+    r=8,
+    lora_alpha=16,
+    target_modules=(["query", "value"]),
+    lora_dropout=0.1,
+    bias="none",
+    modules_to_save=["classifier"],
+    task_type="SEQ_CLS"
+)
+
+training_args = dict(
+    output_dir="lora_output",
+    logging_dir='lora_logs',
+    logging_strategy="steps",
+    evaluation_strategy="steps",
+    
+
+    warmup_steps=200,
+    weight_decay=0.01,
+   
+    learning_rate=5e-4,
+    num_train_epochs=10,
+    logging_steps=25,
+    eval_steps=25,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16,
+    )
+
+In the folllowing experiments all the other params are the same:
+
+20-24) exp-lora-14-18
+seed=[42, 1, 2, 3, 4]
+r=16, a=16,
+
+25-29) exp-lora-19-23
+seed=[42, 1, 2, 3, 4]
+r=16, a=32,
+
+30-34) exp-lora-24-28
+seed=[42, 1, 2, 3, 4]
+r=4, a=4,
+
+35, 36) exp-lora-29-30
+r=4, a=8, seed=42, 1
+
+37, 38 ) exp-lora-31-32
+r=4, a=16, seed=42, 1
+
+39, 40) exp-lora-33-34
+r=4, a=32, seed=42, 1
+
+41, 42) exp-lora-35-36
+r=2, a=2, seed=42, 1
+
+43, 44) exp-lora-37-38
+r=2, a=4, seed=42, 1
+
+45, 46) exp-lora-39-40
+r=2, a=8, seed=42, 1
+
+47, 48) exp-lora-41-42
+r=1, a=1, seed=42, 1
+
+49, 50) exp-lora-43-44
+r=1, a=4, seed=42, 1
+
+51, 52) exp-lora-45-46
+r=1, a=8, seed=42, 1
+
+53, 54) exp-lora-47-48
+r=1, a=16, seed=42, 1
+
+55, 56) exp-lora-49-50
+r=8, a=4, seed=42, 1
+
+57, 58) exp-lora-51-52
+r=8, a=2, seed=42, 1
+
+59, 60) exp-lora-53-54
+r=16, a=8, seed=42, 1
+
+61, 62) exp-lora-55-56
+r=16, a=4, seed=42, 1
+
+63, 64) exp-lora-57-58
+r=16, a=2, seed=42, 1
+
+65, 66) exp-lora-59-60
+r=2, a=16, seed=42, 1
+
+67, 68) exp-lora-61-62
+r=4, a=2, seed=42, 1
+
+69 - 73) exp-lora-63-67
+r=16, a=64, seed=42, 1, 2, 3, 4
+
+74 - 78) exp-lora-68-72
+r=16, a=128, seed=42, 1, 2, 3, 4
+
+79, 80) exp-lora-73-74
+r=32, a=16, seed=42, 1
+
+81, 82) exp-lora-75-76
+r=32, a=32, seed=42, 1
+
+83, 84) exp-lora-77-78
+r=64, a=16, seed=42, 1
+
+85, 86) exp-lora-79-80
+r=128, a=16, seed=42, 1
+
+87 - 89) exp-lora-81-83
+r=16, a=16, target_modules=(["query", "value", "key"]), seed=42, 1, 2
+
+90 - 92) exp-lora-84-86
+r=16, a=16, target_modules=(["query", "value", "key", "*dense*"]), seed=42, 1, 2
+
+93 - 95) exp-lora-87-89
+r=16, a=16, target_modules=(["query"]), seed=42, 1, 2
+
+96 - 98) exp-lora-90-92
+r=16, a=16, target_modules=(["value"]), seed=42, 1, 2
+
+99 - 101) exp-lora-93-95
+r=16, a=16, target_modules=(["query", "key"]), seed=42, 1, 2
+
+102 - 104) exp-lora-96-98
+r=16, a=16, target_modules=(["value", "key"]), seed=42, 1, 2
+
+105, 106) exp-lora-99-100
+r=8, a=32, seed=42, 1
+
+107, 108) exp-lora-101-102
+r=32, a=8, seed=42, 1
+
+109, 110) exp-lora-103-104
+r=8, a=64, seed=42, 1
+
+111, 112) exp-lora-105-106
+r=64, a=8, seed=42, 1
+
+113, 114) exp-lora-107-108
+r=64, a=64, seed=42, 1
+
+115, 116) exp-lora-109-110
+r=64, a=32, seed=42, 1
+
+117, 118) exp-lora-111-112
+r=32, a=64, seed=42, 1
+
+119, 120) exp-lora-113-114
+r=128, a=128, seed=42, 1
+
+121, 122) exp-lora-115-116
+r=64, a=128, seed=42, 1
+
+123, 124) exp-lora-117-118
+r=128, a=64, seed=42, 1
+
+125, 126) exp-lora-119-120
+r=32, a=128, seed=42, 1
+
+127, 128) exp-lora-121-122
+r=128, a=32, seed=42, 1
+
+129, 130) exp-lora-123-124
+r=1, a=2, seed=42, 1
+
+131, 132) exp-lora-125-126
+r=2, a=1, seed=42, 1
+
+133, 134) exp-lora-127-128
+r=4, a=1, seed=42, 1
+
+135, 136) exp-lora-129-130
+r=8, a=1, seed=42, 1
+
+137, 138) exp-lora-131-132
+r=32, a=4, seed=42, 1
+
+139, 140) exp-lora-133-134
+r=2, a=32, seed=42, 1
+
+numeration changed to match max_results (df_max), start from 0
+
+140, 141) exp-lora-135-136
+r=4, a=64, seed=42, 1
+
+142, 143) exp-lora-137-138
+r=8, a=128, seed=42, 1
+
+144, 145) exp-lora-139-140
+r=16, a=1, seed=42, 1
+
+146, 147) exp-lora-141-142
+r=32, a=2, seed=42, 1
+
+148, 149) exp-lora-143-144
+r=64, a=4, seed=42, 1
+
+150, 151) exp-lora-145-146
+r=128, a=8
+
+152, 153) exp-lora-147-148
+r=32, a=1
+
+154, 155) exp-lora-149-150
+r=64, a=2
+
+156, 157) exp-lora-151-152
+r=128, a=4
+
+158, 159) exp-lora-153-154
+r=64, a=1
+
+160, 161) exp-lora-155-156
+r=128, a=2
+
+162, 163) exp-lora-157-158
+r=128, a=1
+
+164, 165) exp-lora-159-160
+r=1, a=32
+
+166, 167) exp-lora-161-162
+r=2, a=64
+
+168, 169) exp-lora-163-164
+r=4, a=128
+
+170, 171) exp-lora-165-166
+r=1, a=64
+
+172, 173) exp-lora-167-168
+r=2, a=128
+
+174, 175) exp-lora-169-170
+r=1, a=128
+
+176 - 178) exp-lora-171-173
+r=16, a=16, target_modules=(["key"]), seed=42, 1, 2
+
+179 - 181) exp-lora-174-176
+r=16, a=16, target_modules=(["query", "key", "value", "attention.output.dense"]), seed=42, 1, 2
+
+182 - 184) exp-lora-177-179
+r=16, a=16, target_modules=(["query", "value", "key", "attention.output.dense", "intermediate.dense", "output.dense"]), seed=42, 1, 2
+
+185) exp-wsc_fullft-0
+dataset: super_glue wsc.fixed
+same training_args, num_epochs=50, seed=42
+
+186) exp-sst_fullft-0
+dataset: glue sst2
+same training_args, num_epochs=1, seed=42
+
+187) exp-qnli_fullft-0
+dataset: glue qnli
+same training_args, eval_step=100, logging_steps=100, num_epochs=1, seed=42
+
+188) exp-rte_fullft-0
+dataset: glue rte
+same training_args, num_epochs=10, seed=42
+
+189) exp-wnli_fullft-0
+dataset: glue wnli
+same training_args, num_epochs=30, seed=42
+
+190) exp-cb_fullft-0
+dataset: super_glue cb
+same training_args, num_epochs=100, seed=42
+
+191) exp-boolq_fullft-0
+dataset: super_glue boolq
+same training_args, eval_step=50, logging_steps=50, num_epochs=2, seed=42
+
+192) exp-cola_fullft-0
+dataset: super_glue cola
+same training_args, num_epochs=5, seed=42
+
+193) exp-mnli_m_fullft-0
+dataset: glue mnli_matched
+same training_args, num_epochs=3, seed=42
+
+194) exp-mnli_mm_fullft-0
+dataset: glue mnli_mismatched
+same training_args, num_epochs=2, seed=42
+
+195) exp-sst_lora-0
+dataset: glue sst2
+(
+    r=16,
+    lora_alpha=16,
+    target_modules=(["query", "value"]),
+
+    learning_rate=5e-4,
+    num_train_epochs=5,
+    logging_steps=50,
+    eval_steps=50,
+)
+
+remake
+196) exp-sst-fullft-epoch1to3-0
+    warmup_steps=200,
+    weight_decay=0.01,
+
+    learning_rate=5e-5,
+    num_train_epochs=5,
+    logging_steps=50,
+    eval_steps=50
+seed=42
+
+remake
+197 - 198) exp-cb-fullft-0, exp-cb-fullft-1
+    
+    warmup_steps=200,
+    weight_decay=0.01,
+
+    learning_rate=5e-4,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+199 - 200)  exp-cb-fullft-2, exp-cb-fullft-3
+    
+    warmup_steps=200,
+    weight_decay=0.01,
+
+    learning_rate=5e-5,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+201 - 202)  exp-cb-fullft-4, exp-cb-fullft-5
+    
+    warmup_steps=200,
+    weight_decay=0.01,
+
+    learning_rate=2e-5,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+203 - 204)  exp-cb-fullft-6, exp-cb-fullft-7
+    
+    warmup_steps=100,
+    weight_decay=0.01,
+
+    learning_rate=5e-5,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+205 - 206)  exp-cb-fullft-8, exp-cb-fullft-9
+    
+    warmup_steps=100,
+    weight_decay=0.01,
+
+    learning_rate=2e-5,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+207 - 208) exp-cb-fullft-10, exp-cb-fullft-11
+
+    warmup_steps=100,
+    weight_decay=0.01,
+
+    learning_rate=5e-4,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+209 - 210)  exp-cb-fullft-12, exp-cb-fullft-13
+    
+    warmup_steps=50,
+    weight_decay=0.05,
+
+    learning_rate=2e-5,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+211 - 212)  exp-cb-fullft-14, exp-cb-fullft-15
+    
+    warmup_steps=50,
+    weight_decay=0.05,
+
+    learning_rate=5e-5,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+213 - 214)  exp-cb-fullft-16, exp-cb-fullft-17
+    
+    warmup_steps=50,
+    weight_decay=0.05,
+
+    learning_rate=5e-4,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+215 - 216)  exp-cb-fullft-18, exp-cb-fullft-19
+    
+    warmup_steps=200,
+    weight_decay=0.1,
+
+    learning_rate=5e-4,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+
+217 - 218)  exp-cb-fullft-20, exp-cb-fullft-21
+    
+    warmup_steps=50,
+    weight_decay=0.1,
+
+    learning_rate=5e-5,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+219 - 220)  exp-cb-fullft-22, exp-cb-fullft-23
+    
+    warmup_steps=50,
+    weight_decay=0.1,
+
+    learning_rate=2e-5,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+221 - 222)  exp-cb-fullft-24, exp-cb-fullft-25
+    
+    warmup_steps=50,
+    weight_decay=0.01,
+
+    learning_rate=5e-4,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+
+223- 224)  exp-cb-fullft-26, exp-cb-fullft-27
+    
+    warmup_steps=50,
+    weight_decay=0.01,
+
+    learning_rate=5e-5,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+225 - 226)  exp-cb-fullft-28, exp-cb-fullft-29
+    
+    warmup_steps=50,
+    weight_decay=0.01,
+
+    learning_rate=2e-5,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+
+227 - 232) exp-cb-fullft-30...35
+warmup_steps=0, 
+weight_decay=0.01,
+same other arguments as in : 221 - 226
+
+233 - 238) exp-cb-fullft-36...41
+ warmup_steps=50,
+ weight_decay=0,
+
+239 - 244) exp-cb-fullft-42...47
+ warmup_steps=0,
+ weight_decay=0
+
+245 - 250) exp-cb-fullft-48...53
+ warmup_steps=50,
+ weight_decay=0.2,
+
+251 - 299) exp-cb-lora-0..48
+for r in [1, 2, 4, 8, 16, 32, 64]:
+   for alpha in [1, 2, 4, 8, 16, 32, 64]:
+  warmup_steps=50
+  weight_decay=0.01
+  
+seed = 42
+
+training_args = dict(
+        output_dir="lora_output",
+        logging_dir='lora_logs',
+        logging_strategy="steps",
+        evaluation_strategy="steps",
+
+
+        warmup_steps=50,
+        weight_decay=0.01,
+
+        learning_rate=5e-4,
+        num_train_epochs=20,
+        logging_steps=10,
+        eval_steps=10,
+        logging_first_step=True,
+        per_device_eval_batch_size=16,
+        per_device_train_batch_size=16,
+        )
+
+300 - 314) exp-cb-lora-49..63
+for r in [128]:
+   for alpha in [1, 2, 4, 8, 16, 32, 64, 128]:
+
+for r in [1, 2, 4, 8, 16, 32, 64]:
+   for alpha in [128]:
+
+315 - 316) exp-mrpc-ia3-0..1
+ia3_config = dict(
+    peft_type="IA3",
+    task_type="SEQ_CLS",
+    target_modules=["key", "value", "intermediate.dense"],
+    feedforward_modules=["intermediate.dense"],
+)
+
+training_args = dict(
+    output_dir="lora_output",
+    logging_dir='lora_logs',
+    logging_strategy="steps",
+    evaluation_strategy="steps",
+
+
+    warmup_steps=200,
+    weight_decay=0.01,
+
+    learning_rate=5e-4,
+    num_train_epochs=10,
+    logging_steps=25,
+    eval_steps=25,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16,
+    )
+ 
+317 - 318) exp-mrpc-ia3-2..3
+learning_rate=1e-3,
+
+319 - 320) exp-cb-lora-64..65
+["query", "value", "key"]
+r=16, a=16
+
+321 - 322) exp-cb-lora-66..67
+["query"]
+
+323 - 324) exp-cb-lora-68..69
+["value"]
+
+325 - 326) exp-cb-lora-70..71
+["key"]
+
+327 - 328) exp-mrpc-ia3-4..5
+learning_rate=2e-3,
+
+329 - 330) exp-mrpc-ia3-6..7
+learning_rate=5e-3,
+
+331 - 332) exp-mrpc-ia3-8..9
+learning_rate=1e-2,
+
+333 - 334) exp-mrpc-ia3-10..11
+
+learning_rate=2e-2,
+
+335 - 336) exp-cb-lora-72..73
+["query", "key"]
+
+337 - 338) exp-cb-lora-74..75
+["value", "key"]
+
+339 - 340) exp-cb-lora-76..77
+["query", "value", "key", ""attention.output.dense"]
+
+341 - 342) exp-cb-lora-78..79
+["query", "value", "key", "attention.output.dense", "intermediate.dense", "output.dense"]
+
+343 - 354) exp-mrpc-fullft-5-16:
+seeds = [42, 1]
+for lr in [1e-3, 5e-4, 1e-4, 2e-5, 1e-5, 5e-6]
+
+355 - 369) exp-mrpc-fullft-17-31
+seeds=[42]
+lr=2e-5
+for weight_dec in [0, 0.01, 0.05, 0.1, 0.2]:
+  for warmup_stp in [0, 200, 500]:
+
+
+370 - 371) exp-mrpc-ia3-12..13
+learning_rate=5e-2
+seeds=[42, 1]
+
+372 - 373) exp-cb-lora-80, exp-cb-lora-80_1
+["query", "value"],
+seed=[42, 1],  r=16, a=16
+
+374 - 387) exp-cb-ia3-0..13
+seeds=[42, 1]
+
+ia3_config = dict(
+    peft_type="IA3",
+    task_type="SEQ_CLS",
+    target_modules=["key", "value", "intermediate.dense"],
+    feedforward_modules=["intermediate.dense"],
+)
+
+lr = ["5e-4", "1e-3", "2e-3", "5e-3", "1e-2", "2e-2",  "5e-2"]
+
+training_args = dict(
+    output_dir="lora_output",
+    logging_dir='lora_logs',
+    logging_strategy="steps",
+    evaluation_strategy="steps",
+
+
+    warmup_steps=200,
+    weight_decay=0.01,
+
+    learning_rate=lr,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16,
+    )
+
+388 - 401) exp-mrpc-ia3-14..27
+lr=5e-3
+seeds=[42, 1]
+["key", "value"],
+
+["key"]
+
+["value"]
+
+["query"]
+
+["query", "key"]
+
+["query", "value"]
+
+["query", "key", "value"]
+
+402 - 421) exp-mrpc-adalora-0..19
+seeds=[42, 1]
+
+
+adalora_config = dict(
+  peft_type="ADALORA", 
+  task_type="SEQ_CLS", 
+  r=16,
+  lora_alpha=16, 
+  target_modules=["query", "value"],
+  lora_dropout=0.1,
+)
+
+for lr in [1e-5, 2e-5, 5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3, 1e-2]:
+
+    training_args = dict(
+      output_dir="lora_output",
+      logging_dir='lora_logs',
+      logging_strategy="steps",
+      evaluation_strategy="steps",
+
+
+      warmup_steps=200,
+      weight_decay=0.01,
+
+      learning_rate=lr,
+      num_train_epochs=10,
+      logging_steps=25,
+      eval_steps=25,
+      logging_first_step=True,
+      per_device_eval_batch_size=16,
+      per_device_train_batch_size=16,
+      )
+
+
+422 - 435) exp-lora-180-193
+seeds=[42, 1]
+for lr in [5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3]
+
+
+436 - 449) exp-cb-fullft-54-67
+seeds=[42, 1]
+for lr in [1e-3, 5e-4, 1e-4, 5e-5, 2e-5, 1e-5, 5e-6]:
+
+training_args:
+    warmup_steps=50,
+    weight_decay=0.01,
+
+    learning_rate=lr,
+    num_train_epochs=20,
+    logging_steps=10,
+    eval_steps=10,
+    logging_first_step=True,
+    per_device_eval_batch_size=16,
+    per_device_train_batch_size=16
+
+450 - 479) exp-cb-fullft-68-97
+
+seeds=[42, 1]
+lr=2e-5
+for weight_dec in [0, 0.01, 0.05, 0.1, 0.2]:
+  for warmup_stp in [0, 200, 500]:
+
+465 - 478) exp-mrpc-ia3-28-41
+
+for modules in [["attention.output.dense"], ["intermediate.dense"], ["output.dense"], ["attention.output.dense", "intermediate.dense"], ["intermediate.dense", "output.dense"], ["output.dense", "attention.output.dense"], ["attention.output.dense", "intermediate.dense", "output.dense"]]
+
+seeds=[42, 1]
+lr=5e-3
+
+  ia3_config = dict(
+      peft_type="IA3",
+      task_type="SEQ_CLS",
+      target_modules=["query", "key", "value"] + modules,
+      feedforward_modules=modules,
+)
+
+479 - 492) exp-mrpc-ia3-42-55
+
+for modules in [["attention.output.dense"], ["intermediate.dense"], ["output.dense"], ["attention.output.dense", "intermediate.dense"], ["intermediate.dense", "output.dense"], ["output.dense", "attention.output.dense"], ["attention.output.dense", "intermediate.dense", "output.dense"]]
+
+seeds=[42, 1]
+lr=5e-3
+
+  ia3_config = dict(
+      peft_type="IA3",
+      task_type="SEQ_CLS",
+      target_modules=["key", "value"] + modules,
+      feedforward_modules=modules,
+)
+
+
+493 - 506) exp-cb-lora-81-94
+seeds=[42, 1]
+for lr in [5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3]
+
+
+507 - 520) exp-rte-lora-0-13
+seeds=[42, 1]
+for lr in [5e-5, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3]
+
+521 - 522) exp-rte-lora-14-15
+seeds=[42, 1]
+lr = [7e-4]
+
+523 - 587) exp-rte-lora-16-79
+seed=42
+lr=7e-4
+for r in [1, 2, 4, 8, 16, 32, 64, 128]:
+  for a in [1, 2, 4, 8, 16, 32, 64, 128]:
+
+588 - 607)  exp-cb-fullft-98-117
+seeds=[42]
+lr=2e-5
+for weight_dec in [0, 0.01, 0.05, 0.1, 0.2]:
+  for warmup_stp in [0, 20, 50, 100]:
+
+608 - 621) exp-rte-fullft-0-6
+seeds=[42]
+logging_steps=50, eval_steps=50,
+
+for lr in [1e-3, 5e-4, 1e-4, 5e-5, 2e-5, 1e-5, 5e-6]:
+
+622 - 635) exp-cb-ia3-14..27
+lr=5e-3
+seeds=[42, 1]
+["key", "value"], ["key"], ["value"], ["query"], ["query", "key"], ["query", "value"], ["query", "key", "value"]
+
+636 - 656) exp-cb-ia3-28-48
+(немного нумерация съехала)
+
+for modules in [["key", "value"], ["query", "value"], ["query", "key", "value"]]:
+  for ff_modules in [["attention.output.dense"], ["intermediate.dense"], ["output.dense"], ["attention.output.dense", "intermediate.dense"], ["intermediate.dense", "output.dense"], ["output.dense", "attention.output.dense"], ["attention.output.dense", "intermediate.dense", "output.dense"]]:
+
+
+seeds=[42, 1]
+lr=5e-3
+
+  ia3_config = dict(
+      peft_type="IA3",
+      task_type="SEQ_CLS",
+      target_modules=modules + ff_modules,
+      feedforward_modules=ff_modules,
+)
+
+650 - 667) exp-cb-adalora-0..17
+seeds=[42, 1]
+
+  r=16,
+  lora_alpha=16, 
+  target_modules=["query", "value"],
+  lora_dropout=0.1,
+
+
+for lr in [1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3, 1e-2, 2e-2, 5e-2]:
+
+
+666 - 676) exp-rte-adalora-0..8
+seeds=[42]
+logging_steps=50, eval_steps=50,
+
+  r=16,
+  lora_alpha=16, 
+  target_modules=["query", "value"],
+  lora_dropout=0.1,
+
+
+for lr in  [1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3, 1e-2, 2e-2, 5e-2]:
+
+677 - 680) exp-mrpc-adalora-20-23:
+seeds=[42, 1]
+
+for lr in [2e-2, 5e-2]:
+
+
+681 - 694) exp-rte-ia3-0..13:
+seeds=[42, 1]
+target_modules=["key", "value"]
+
+for lr in [5e-4, 1e-3, 2e-3, 5e-3, 1e-2, 2e-2, 5e-2]:
+
+
+695 - 703) exp-rte-lora-80-88
+r=16, a=16
+seeds=[42]
+logging_steps=50, eval_steps=50,
+lr=7e-4
+
+
+for module in [["query"], ["value"], ["key"], ["query", "value"], ["query", "key"], ["value", "key"], ["query", "value", "key"], ["query", "value", "key", "attention.output.dense"], ["query", "value", "key", "attention.output.dense", "intermediate.dense", "output.dense"]]
+
+
+
+704 - 717) exp-mrpc-adalora-24-37
+r=16, a=16
+seeds=[42, 1]
+lr=2e-3
+
+for module in [["query"], ["value"], ["key"], ["query", "value"], ["query", "key"], ["value", "key"], ["query", "value", "key"]]:
+
+target_modules = module
+
+718 - 731) exp-mrpc-adalora-38-51
+
+r=16, a=16
+seeds=[42, 1]
+lr=2e-3
+
+for module in [["attention.output.dense"], ["intermediate.dense"], ["output.dense"], ["attention.output.dense", "intermediate.dense"], ["intermediate.dense", "output.dense"], ["output.dense", "attention.output.dense"], ["attention.output.dense", "intermediate.dense", "output.dense"]]:
+
+target_modules = ["query", "value", "key"] + module
+
+
+seed=1 убран
+732 - 765) exp-lora-194-210
+seeds=42
+learning_rate=5e-4
+for r in [256]:
+   for alpha in [1, 2, 4, 8, 16, 32, 64, 128, 256]:
+
+for r in [1, 2, 4, 8, 16, 32, 64, 128]:
+   for alpha in [256]:
+
+
+766 - 772) exp-rte-adalora-9-15
+r=16, a=16
+seeds=[42]
+lr=2e-3
+logging_steps=50, eval_steps=50,
+
+for module in [["query"], ["value"], ["key"], ["query", "value"], ["query", "key"], ["value", "key"], ["query", "value", "key"]]:
+
+target_modules = module
+
+
+773 - 781) exp-rte-adalora-16-22
+
+r=16, a=16
+seeds=[42]
+lr=2e-3
+logging_steps=50, eval_steps=50,
+
+for module in [["attention.output.dense"], ["intermediate.dense"], ["output.dense"], ["attention.output.dense", "intermediate.dense"], ["intermediate.dense", "output.dense"], ["output.dense", "attention.output.dense"], ["attention.output.dense", "intermediate.dense", "output.dense"]]:
+
+target_modules = ["query", "value", "key"] + module
+
+782 - 845) exp-mrpc-adalora-52-115
+
+seeds=[42]
+
+for r in [1, 2, 4, 8, 16, 32, 64, 128]:
+  for a in [1, 2, 4, 8, 16, 32, 64, 128]:
+
+52 + 24 = 76
+76 + 24 = 100
+
+
+adalora_config = dict(
+  peft_type="ADALORA", 
+  task_type="SEQ_CLS", 
+  r=r,
+  lora_alpha=a, 
+  target_modules=["query", "value", "key", "attention.output.dense", "intermediate.dense", "output.dense"],
+  lora_dropout=0.1,
+)
+
+lr=2e-3
+
+
+846 - 852) exp-cb-adalora-18-24
+r=16, a=16
+seeds=[42]
+lr=2e-3
+
+for module in [["query"], ["value"], ["key"], ["query", "value"], ["query", "key"], ["value", "key"], ["query", "value", "key"]]:
+
+target_modules = module
+
+
+853 - 859) exp-cb-adalora-25-31
+
+r=16, a=16
+seeds=[42]
+lr=2e-3
+
+for module in [["attention.output.dense"], ["intermediate.dense"], ["output.dense"], ["attention.output.dense", "intermediate.dense"], ["intermediate.dense", "output.dense"], ["output.dense", "attention.output.dense"], ["attention.output.dense", "intermediate.dense", "output.dense"]]:
+
+target_modules = ["query", "value", "key"] + module
+
+
+
+860 - 883) exp-mrpc-adalora-116-147
+
+for initial_module in [["query", "value", "key"], ["query", "value"], ["value", "key"], ["value"]:
+  for module in [[], ["attention.output.dense"], ["intermediate.dense"], ["output.dense"], ["attention.output.dense", "intermediate.dense"], ["intermediate.dense", "output.dense"], 	["output.dense", "attention.output.dense"], ["attention.output.dense", "intermediate.dense", "output.dense"]]:
+
+r=16, a=16
+seeds=[5]
+lr=2e-3
+
+884 - 907) exp-rte-adalora-23-54
+
+for initial_module in [["query", "value", "key"], ["query", "value"], ["value", "key"], ["value]]:
+  for module in [[], ["attention.output.dense"], ["intermediate.dense"], ["output.dense"], ["attention.output.dense", "intermediate.dense"], ["intermediate.dense", "output.dense"], 	["output.dense", "attention.output.dense"], ["attention.output.dense", "intermediate.dense", "output.dense"]]:
+
+r=16, a=16
+seeds=[5]
+logging_steps=50, eval_steps=50,
+lr=2e-3
+
+
+908 - 939) exp-rte-lora-89-120
+
+for initial_module in [["query", "value", "key"], ["query", "value"], ["value", "key"], ["value"]]:
+  for module in [[], ["attention.output.dense"], ["intermediate.dense"], ["output.dense"], ["attention.output.dense", "intermediate.dense"], ["intermediate.dense", "output.dense"], 	["output.dense", "attention.output.dense"], ["attention.output.dense", "intermediate.dense", "output.dense"]]:
+
+r=16, a=16
+seeds=[5]
+lr=7e-4
+logging_steps=50, eval_steps=50,
+
+
+940 - 971) exp-mrpc-lora-211-242
+
+for initial_module in [["query", "value", "key"], ["query", "value"], ["value", "key"], ["value"]]:
+  for module in [[], ["attention.output.dense"], ["intermediate.dense"], ["output.dense"], ["attention.output.dense", "intermediate.dense"], ["intermediate.dense", "output.dense"], 	["output.dense", "attention.output.dense"], ["attention.output.dense", "intermediate.dense", "output.dense"]]:
+
+r=16, a=16
+seeds=[5]
+lr=7e-4
+
+972 - 987) exp-mrpc-adalora-148-163
+
+for a in [16, 64]:
+    for r in [1, 2, 4, 8, 16, 32, 64, 128]:
+
+
+        adalora_config = dict(
+          peft_type="ADALORA", 
+          task_type="SEQ_CLS", 
+          init_r=r,
+          lora_alpha=a, 
+          target_modules=["query", "value", "key", "attention.output.dense", "intermediate.dense", "output.dense"],
+          lora_dropout=0.1,
+        )
+
+988 - 995) exp-rte-lora-121-128
+
+for r in [1, 2, 4, 8, 16, 32, 64, 128]:
+
+a = 128
+lr=2e-4
+
+
+
+996 - 1019) exp-rte-adalora-55-78
+
+
+lr=2e-3
+seed=42
+for target_r in [1, 2, 4, 8, 16, 32]:
+  for init_r in [target_r, int(target_r * 1.5), target_r * 2, target_r * 4]: 
+
+     adalora_config = dict(
+         peft_type="ADALORA", 
+         task_type="SEQ_CLS", 
+         init_r=init_r,
+         target_r=target_r,
+         tinit=50,
+         lora_alpha=32, 
+         target_modules=["query", "value", "key", "attention.output.dense", "intermediate.dense", "output.dense"],
+         lora_dropout=0.1,
+     )
+
+
+
+
+
+
+
