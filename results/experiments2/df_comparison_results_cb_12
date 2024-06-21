@@ -1,0 +1,5 @@
+name,test_acc,test_f1,eval_acc,eval_f1,params,time,dataset,seed
+fullft,,,0.9107,0.9037,,233.2068,cb,12
+lora,,,1.0,1.0,,147.672,cb,12
+ia3,,,0.9821,0.9867,,146.5599,cb,12
+adalora,,,0.9821,0.9867,,196.7765,cb,12
