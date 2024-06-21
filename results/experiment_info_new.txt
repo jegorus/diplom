@@ -1154,8 +1154,165 @@ for target_r in [1, 2, 4, 8, 16, 32]:
      )
 
 
+1020 - 1027) exp-rte-lora-129-136
+
+for initial_module in [["query", "value", "key"], ["query", "value"], ["value", "key"], ["value"]]:
+  for module in [[], ["intermediate.dense"]]:
+
+    lora_config = dict(
+        r=16,
+        lora_alpha=16,
+        target_modules=(initial_module + module + [str(x) + ".output.dense" for x in range(12)]),
+        lora_dropout=0.1,
+        bias="none",
+        modules_to_save=["classifier"],
+        task_type="SEQ_CLS"
+    )
+
+seed=5
+lr=7e-4
+
+1028 - 1035) exp-rte-adalora-79-86
+seed = 5
+for initial_module in [["query", "value", "key"], ["query", "value"], ["value", "key"], ["value"]]:
+  for module in [[], ["intermediate.dense"]]:
+
+target_modules=(initial_module + module + [str(x) + ".output.dense" for x in range(12)])
 
 
+1036 - 1043) exp-mrpc-adalora-164-171
+seed = 5
+for initial_module in [["query", "value", "key"], ["query", "value"], ["value", "key"], ["value"]]:
+  for module in [[], ["intermediate.dense"]]:
+
+target_modules=(initial_module + module + [str(x) + ".output.dense" for x in range(12)])
+
+r=16, a=16
+lr=2e-3
+
+
+1044 - 1051) exp-mrpc-ia3-56-63
+
+for initial_module in ["query", "value", "key"], ["value", "key"]:
+  for module in [[], ["intermediate.dense"]]:
+
+target_modules=(initial_module + module + [str(x) + ".output.dense" for x in range(12)])
+
+seeds=[42, 1]
+lr=5e-3
+
+  ia3_config = dict(
+      peft_type="IA3",
+      task_type="SEQ_CLS",
+      target_modules=["key", "value"] + modules,
+      feedforward_modules=modules,
+)
+
+1052 - 1057) exp-mrpc-adalora-172-177
+
+lr=2e-3
+seed=42
+for target_r in [4, 8, 16]:
+  for init_r in [target_r, int(target_r * 1.5)]: 
+
+     adalora_config = dict(
+         peft_type="ADALORA", 
+         task_type="SEQ_CLS", 
+         init_r=init_r,
+         target_r=target_r,
+         tinit=100,
+         lora_alpha=16, 
+         target_modules=["query", "value", "key", "intermediate.dense", "output.dense"],
+         lora_dropout=0.1,
+     )
+
+
+1058 - 1063) exp-mrpc-adalora-178-183
+
+lr=2e-3
+seed=42
+for target_r in [1, 2, 32]:
+  for init_r in [target_r, int(target_r * 1.5)]: 
+
+     adalora_config = dict(
+         peft_type="ADALORA", 
+         task_type="SEQ_CLS", 
+         init_r=init_r,
+         target_r=target_r,
+         tinit=100,
+         lora_alpha=16, 
+         target_modules=["query", "value", "key", "intermediate.dense", "output.dense"],
+         lora_dropout=0.1,
+     )
+
+
+
+
+1020) exp-eval-mrpc-fullft-0
+
+seed=10
+training_args = dict(
+  load_best_model_at_end=True,
+   metric_for_best_model="f1",
+  output_dir="lora_output",
+  logging_dir='lora_logs',
+  logging_strategy="steps",
+  evaluation_strategy="steps",
+  save_total_limit=2,
+  save_steps=200,
+  save_only_model=True,
+  
+  warmup_steps=200,
+  weight_decay=0.01,
+
+  learning_rate=5e-5,
+  num_train_epochs=10,
+  logging_steps=50,
+  eval_steps=50,
+  logging_first_step=True,
+  per_device_eval_batch_size=16,
+  per_device_train_batch_size=16,
+
+)
+
+) exp-eval-mrpc-fullft-0..2, lora-0..2, ia3-0..2, adalora-0..2
+seed=10, 11, 12
+
+) cb:
+  save_steps=30,
+  save_only_model=True,
+
+  warmup_steps=50,
+  weight_decay=0.01,
+
+  learning_rate=5e-5,
+  num_train_epochs=20,
+  logging_steps=10,
+  eval_steps=10,
+
+boolq:
+)
+{'load_best_model_at_end': True,
+ 'metric_for_best_model': 'accuracy',
+ 'output_dir': 'lora_output',
+ 'logging_dir': 'lora_logs',
+ 'logging_strategy': 'steps',
+ 'evaluation_strategy': 'steps',
+ 'save_total_limit': 1,
+ 'save_steps': 400,
+ 'save_only_model': True,
+ 'warmup_steps': 200,
+ 'weight_decay': 0.01,
+ 'learning_rate': 5e-5,
+ 'num_train_epochs': 5,
+ 'logging_steps': 200,
+ 'eval_steps': 200,
+ 'logging_first_step': True,
+ 'per_device_eval_batch_size': 16,
+ 'per_device_train_batch_size': 16}
+
+
+adalora all layers - lr:1e-3, lora all-layers-2e-4
 
 
 

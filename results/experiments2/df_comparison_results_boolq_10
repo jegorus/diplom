@@ -1,0 +1,3 @@
+name,test_acc,test_f1,eval_acc,eval_f1,params,time,dataset,seed
+ia3,,,0.782,,,2552.7019,boolq,10
+lora-v-intff,,,0.8138,,2.54,2598.102,boolq,10

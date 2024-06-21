@@ -1,0 +1,2 @@
+name,test_acc,test_f1,eval_acc,eval_f1,params,time,dataset,seed
+lora-all-layers,0.8713,0.9063,0.8946,0.9244,2.54,576.4713,mrpc,10

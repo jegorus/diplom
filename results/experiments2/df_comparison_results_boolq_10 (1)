@@ -1,0 +1,2 @@
+name,test_acc,test_f1,eval_acc,eval_f1,params,time,dataset,seed
+ia3,,,0.782,,,2552.7019,boolq,10

@@ -1,0 +1,5 @@
+name,test_acc,test_f1,eval_acc,eval_f1,params,time,dataset,seed
+lora-all-layers,0.8713,0.9063,0.8946,0.9244,2.54,576.4713,mrpc,10
+adalora-v-intff,0.8725,0.905,0.9044,0.9305,1.08,525.8621,mrpc,10
+lora-all-layers,0.8736,0.9068,0.8971,0.9261,2.54,564.3204,mrpc,11
+adalora-v-intff,0.8812,0.9127,0.8897,0.9212,1.08,520.2527,mrpc,11

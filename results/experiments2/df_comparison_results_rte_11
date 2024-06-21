@@ -2,3 +2,4 @@ name,test_acc,test_f1,eval_acc,eval_f1,params,time,dataset,seed
 fullft,,,0.7509,,,849.0641,rte,11
 lora,,,0.8231,,,627.8474,rte,11
 ia3,,,0.7545,,,621.6292,rte,11
+adalora,,,0.787,,,850.8749,rte,11
