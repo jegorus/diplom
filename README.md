@@ -14,6 +14,7 @@ open diplom_runner_final.ipynb in Google Colab or Jupyter notebook. Run first 4 
 - results: contains raw files of experiments and results. Check README for better interpretation
 - scripts: dependencies and logs clearing
 - utils: utils: contains Custom Trainer and functions to print parameters
+- thesis: contains presentation and paper
 - files *.py will get cloned in the first colab cell (automatically):
   - model.py: ModelHandler to run experiments
   - data.py: DatasetHandler to process datasets
